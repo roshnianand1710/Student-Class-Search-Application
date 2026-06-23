@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-// System prompt with live dataset stats so the model can answer factual questions accurately.
+// System prompt with live dataset stats so the model can answer factual questions accurately and quickly.
 function buildSystemPrompt(stats) {
   return `You are the AI layer behind "Student Class Search," a chat assistant for MIT's course catalog (department 6 = EECS/Course 6).
 
@@ -86,7 +86,7 @@ export async function parseQuery(userQuery, stats, history = []) {
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
         max_tokens: 300,
-        temperature: 0,
+        temperature: 1,
         messages: [
           { role: 'system', content: buildSystemPrompt(stats) },
           ...messages,

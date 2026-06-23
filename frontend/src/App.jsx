@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import ChatSidebar from './components/ChatSidebar.jsx';
 import ChatWindow from './components/ChatWindow.jsx';
 import GalaxyBackground from './components/GalaxyBackground.jsx';
+import LandingPage from './components/LandingPage.jsx';
 import { searchClasses } from './api.js';
 import { buildHistory } from './utils/chatHistory.js';
 import {
@@ -32,6 +33,8 @@ export default function App() {
   const [{ sessions, activeId }, setChatState] = useState(initState);
   const [loadingChatId, setLoadingChatId] = useState(null); // Which chat is waiting on the API.
   const [sidebarOpen, setSidebarOpen] = useState(false); // Mobile drawer toggle.
+  const [showLanding, setShowLanding] = useState(true);
+  const [landingExiting, setLandingExiting] = useState(false);
 
   const activeSession = useMemo(
     () => sessions.find((s) => s.id === activeId) ?? sessions[0],
@@ -65,6 +68,17 @@ export default function App() {
   const handleSelectChat = useCallback((id) => {
     setChatState((prev) => ({ ...prev, activeId: id }));
   }, []);
+
+  const handleEnterApp = useCallback(() => {
+    if (landingExiting) return;
+    setLandingExiting(true);
+  }, [landingExiting]);
+
+  const handleLandingTransitionEnd = useCallback((e) => {
+    if (e.propertyName === 'opacity' && landingExiting) {
+      setShowLanding(false);
+    }
+  }, [landingExiting]);
 
   const handleDeleteChat = useCallback((id) => {
     setChatState((prev) => {
@@ -140,7 +154,17 @@ export default function App() {
     <div className="app-shell">
       <GalaxyBackground />
 
-      <div className="app-layout">
+      {showLanding && (
+        <LandingPage
+          onEnter={handleEnterApp}
+          exiting={landingExiting}
+          onTransitionEnd={handleLandingTransitionEnd}
+        />
+      )}
+
+      <div
+        className={`app-layout${!showLanding || landingExiting ? ' app-layout-visible' : ''}`}
+      >
         <ChatSidebar
           sessions={sessions}
           activeId={activeId}

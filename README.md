@@ -171,6 +171,6 @@ Main endpoint used by the chat UI.
 
 ## Limitations
 
-- Dataset covers MIT Course 6 (EECS) only — no day/time scheduling data
+- Dataset covers MIT Course 6 (EECS) only 
 - Chats persist in browser `localStorage` on this device only (not synced across browsers)
 
