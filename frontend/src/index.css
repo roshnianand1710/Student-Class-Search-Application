@@ -1,0 +1,88 @@
+/* Global styles shared by the whole app (colors, fonts, page defaults). */
+
+/* Make padding and borders count toward element width consistently. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Named colors and sizes used throughout App.css. */
+:root {
+  --bg-deep: #030508;
+  --bg-surface: rgba(12, 18, 32, 0.72);
+  --bg-elevated: rgba(18, 26, 44, 0.88);
+  --bg-input: rgba(6, 10, 20, 0.6);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text-primary: #f0f2f7;
+  --text-secondary: #8b93a8;
+  --text-muted: #5c6378;
+  --accent: #ffffff;
+  --accent-light: #f0f2f7;
+  --accent-glow: rgba(255, 255, 255, 0.22);
+  --blue-deep: #e2e8f0;
+  --blue-dark: #cbd5e1;
+  --cyan: #22d3ee;
+  --cyan-glow: rgba(34, 211, 238, 0.2);
+  --violet: #818cf8;
+  --violet-muted: rgba(255, 255, 255, 0.1);
+  --pink-muted: rgba(131, 24, 67, 0.1);
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --mit: #a31f34;
+  --grad-u: #34d399;
+  --grad-g: #f0f2f7;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 40px var(--accent-glow);
+  --font: 'DM Sans', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tell the browser we use a dark theme (scrollbars, form controls). */
+html {
+  color-scheme: dark;
+}
+
+/* Base page styling — dark background and default text color. */
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--bg-deep);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* React mounts here and fills the full viewport height. */
+#root {
+  min-height: 100svh;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* Color when the user highlights text on the page. */
+::selection {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--text-primary);
+}
