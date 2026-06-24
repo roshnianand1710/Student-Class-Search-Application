@@ -1,7 +1,7 @@
 // POST /search — AI intent routing plus class search or chat reply.
 import express from 'express';
 import { parseQuery } from '../services/aiParser.js';
-import { searchClasses, getDatasetStats } from '../services/classQuery.js';
+import { searchClasses, getDatasetStats, getExtendedStats, getChatContext } from '../services/classQuery.js';
 
 const router = express.Router();
 
@@ -14,8 +14,13 @@ router.post('/', async (req, res, next) => {
       return res.status(400).json({ error: 'A non-empty "query" string is required.' });
     }
 
-    const stats = await getDatasetStats(); // Live counts for factual chat answers.
-    const parsed = await parseQuery(query.trim(), stats, Array.isArray(history) ? history : []);
+    const trimmedQuery = query.trim();
+    const [stats, extendedStats, chatContext] = await Promise.all([
+      getDatasetStats(),
+      getExtendedStats(),
+      getChatContext(trimmedQuery),
+    ]);
+    const parsed = await parseQuery(trimmedQuery, stats, Array.isArray(history) ? history : [], extendedStats, chatContext);
 
     // Conversational path — return a plain-text reply from the LLM.
     if (parsed.intent === 'chat') {
