@@ -17,9 +17,14 @@ export function buildHistory(messages, limit = 6) {
               .map(([k, v]) => `${k}: ${v}`)
               .join(', ')
           : '';
+        const courseSummary = (m.results || [])
+          .map((c) => `${c.course_code} (${c.offered_to === 'G' ? 'grad' : 'undergrad'}): ${c.title}`)
+          .join('; ');
         const summary = filters
-          ? `Found ${count} classes (${filters}).`
-          : `Found ${count} matching classes.`;
+          ? `Found ${count} classes (${filters}).${courseSummary ? ` Courses: ${courseSummary}.` : ''}`
+          : courseSummary
+            ? `Found ${count} matching classes. Courses: ${courseSummary}.`
+            : `Found ${count} matching classes.`;
         return { role: 'assistant', text: summary };
       }
       if (m.error) {
